@@ -150,6 +150,82 @@ struct BroadcastResult {
     var bonusRecords: Int
 }
 
+// MARK: - Station progression (between-night content)
+
+// A named rank the station climbs as more nights are aired.
+struct StationTier: Identifiable {
+    var level: Int
+    var name: String
+    var blurb: String
+    var minNights: Int
+    var id: Int { level }
+}
+
+enum StationLadder {
+    static let tiers: [StationTier] = [
+        StationTier(level: 0, name: "Pirate Signal",       blurb: "Broadcasting from a back room.",        minNights: 0),
+        StationTier(level: 1, name: "Graveyard Shift",     blurb: "A handful of night owls found you.",     minNights: 2),
+        StationTier(level: 2, name: "Late Night Local",    blurb: "The neighbourhood tunes in.",            minNights: 4),
+        StationTier(level: 3, name: "City Favorite",       blurb: "Cab radios across town stay on your dial.", minNights: 7),
+        StationTier(level: 4, name: "Regional Voice",      blurb: "Your overnight feed carries for miles.", minNights: 11),
+        StationTier(level: 5, name: "Syndicated",          blurb: "Other stations relay your show.",        minNights: 16),
+        StationTier(level: 6, name: "Legendary Frequency", blurb: "A voice the whole coast falls asleep to.", minNights: 22),
+    ]
+
+    static func tier(forNights n: Int) -> StationTier {
+        tiers.last { n >= $0.minNights } ?? tiers[0]
+    }
+
+    static func next(forNights n: Int) -> StationTier? {
+        tiers.first { $0.minNights > n }
+    }
+}
+
+// What a milestone hands you when you reach it.
+enum MilestoneReward {
+    case records(Int)
+    case track(Int)              // gift a track (and unlock its genre if needed)
+    case genreTrack(Genre, Int)  // unlock a genre + gift one of its tracks
+}
+
+// A scripted unlock that fires once when nightsAired reaches `night`.
+struct Milestone {
+    var night: Int
+    var title: String
+    var blurb: String
+    var reward: MilestoneReward
+}
+
+enum MilestoneCatalog {
+    static let all: [Milestone] = [
+        Milestone(night: 1,  title: "Word Gets Around", blurb: "Your first night on the dial earns a little buzz.",  reward: .records(15)),
+        Milestone(night: 2,  title: "Synth After Dark", blurb: "A caller leaves a reel of synth cuts at the door.",  reward: .genreTrack(.synth, 107)),
+        Milestone(night: 3,  title: "Loyal Listeners",  blurb: "Regulars start tuning in on schedule.",              reward: .records(25)),
+        Milestone(night: 4,  title: "Campfire Hour",    blurb: "A folk singer mails you a demo tape.",               reward: .genreTrack(.folk, 109)),
+        Milestone(night: 5,  title: "The Demo Pile",    blurb: "You dig a soul gem out of the mail pile.",           reward: .track(116)),
+        Milestone(night: 6,  title: "Blue Midnight",    blurb: "An old bluesman shares his record with you.",        reward: .genreTrack(.blues, 111)),
+        Milestone(night: 8,  title: "Velvet Lounge",    blurb: "A lounge act books a midnight guest spot.",          reward: .genreTrack(.lounge, 113)),
+        Milestone(night: 10, title: "Cult Following",   blurb: "Word of your night show spreads across town.",       reward: .records(60)),
+        Milestone(night: 13, title: "Tastemaker",       blurb: "A label sends an exclusive soul pressing.",          reward: .track(104)),
+        Milestone(night: 16, title: "Going Syndicated", blurb: "Other stations want your overnight feed.",           reward: .records(120)),
+        Milestone(night: 20, title: "Night Owl Nation", blurb: "Your signal reaches the whole coast.",               reward: .track(102)),
+    ]
+}
+
+// A resolved reward shown on the post-broadcast screen.
+struct MilestoneAward: Identifiable {
+    var id: Int        // night
+    var title: String
+    var blurb: String
+    var detail: String // e.g. "Unlocked Synth + Pulse Theory"
+}
+
+// Everything that advanced this night, for the result overlay.
+struct NightAdvance {
+    var tieredUp: StationTier?       // non-nil when a new tier was reached
+    var milestones: [MilestoneAward] // newly claimed milestones this night
+}
+
 // MARK: - Persistent progress
 
 struct GameState: Codable {
@@ -161,4 +237,26 @@ struct GameState: Codable {
     var unlockedGenres: [Genre] = Genre.starters
     var nextTrackID: Int = 1000
     var customTrackTitles: [Int: String] = [:] // for shop-bought tracks
+    var claimedMilestones: [Int] = []          // nights whose milestone reward was granted
+
+    init() {}
+
+    // Decode-safe: missing keys fall back to defaults so adding fields never wipes a save.
+    enum CodingKeys: String, CodingKey {
+        case records, nightsAired, bestNight, totalListeners
+        case ownedTrackIDs, unlockedGenres, nextTrackID, customTrackTitles, claimedMilestones
+    }
+
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        records          = try c.decodeIfPresent(Int.self, forKey: .records) ?? 30
+        nightsAired      = try c.decodeIfPresent(Int.self, forKey: .nightsAired) ?? 0
+        bestNight        = try c.decodeIfPresent(Int.self, forKey: .bestNight) ?? 0
+        totalListeners   = try c.decodeIfPresent(Int.self, forKey: .totalListeners) ?? 0
+        ownedTrackIDs    = try c.decodeIfPresent([Int].self, forKey: .ownedTrackIDs) ?? []
+        unlockedGenres   = try c.decodeIfPresent([Genre].self, forKey: .unlockedGenres) ?? Genre.starters
+        nextTrackID      = try c.decodeIfPresent(Int.self, forKey: .nextTrackID) ?? 1000
+        customTrackTitles = try c.decodeIfPresent([Int: String].self, forKey: .customTrackTitles) ?? [:]
+        claimedMilestones = try c.decodeIfPresent([Int].self, forKey: .claimedMilestones) ?? []
+    }
 }

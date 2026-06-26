@@ -116,6 +116,20 @@ final class RadioGameStore: ObservableObject {
         callerRequests.first { $0.slot == slot }
     }
 
+    // MARK: - Station progression (between nights)
+
+    var stationTier: StationTier { StationLadder.tier(forNights: state.nightsAired) }
+    var nextTier: StationTier? { StationLadder.next(forNights: state.nightsAired) }
+
+    // Progress (0...1) from the current tier toward the next one, plus the raw counts.
+    var tierProgress: (current: Int, target: Int, fraction: Double) {
+        let cur = stationTier
+        guard let nxt = nextTier else { return (state.nightsAired, state.nightsAired, 1) }
+        let span = max(1, nxt.minNights - cur.minNights)
+        let done = state.nightsAired - cur.minNights
+        return (done, span, min(1, max(0, Double(done) / Double(span))))
+    }
+
     // MARK: - Booth interactions
 
     func assign(slot: Int) {
@@ -256,15 +270,56 @@ final class RadioGameStore: ObservableObject {
         )
     }
 
-    // Commit a broadcast result to persistent progress
-    func commit(_ result: BroadcastResult) {
+    // Commit a broadcast result to persistent progress.
+    // Returns what advanced this night (tier-up + newly unlocked milestones) for the result screen.
+    @discardableResult
+    func commit(_ result: BroadcastResult) -> NightAdvance {
+        let prevTier = stationTier
         state.records += result.recordsEarned
         state.nightsAired += 1
         state.totalListeners += result.peakListeners
         if result.peakListeners > state.bestNight {
             state.bestNight = result.peakListeners
         }
+
+        // Grant any milestones whose night has now been reached (once each).
+        var awards: [MilestoneAward] = []
+        for m in MilestoneCatalog.all
+        where m.night <= state.nightsAired && !state.claimedMilestones.contains(m.night) {
+            state.claimedMilestones.append(m.night)
+            let detail = applyReward(m.reward)
+            awards.append(MilestoneAward(id: m.night, title: m.title, blurb: m.blurb, detail: detail))
+        }
+
+        let newTier = stationTier
+        let tieredUp = newTier.level > prevTier.level ? newTier : nil
+
         persist()
+        return NightAdvance(tieredUp: tieredUp, milestones: awards)
+    }
+
+    // Apply a milestone reward and return a short human-readable summary of what was granted.
+    private func applyReward(_ reward: MilestoneReward) -> String {
+        switch reward {
+        case .records(let n):
+            state.records += n
+            return "+\(n) records"
+
+        case .track(let id):
+            var granted = false
+            if !state.ownedTrackIDs.contains(id) { state.ownedTrackIDs.append(id); granted = true }
+            if let g = track(id)?.genre, !state.unlockedGenres.contains(g) { state.unlockedGenres.append(g) }
+            if granted { return "New track: \(track(id)?.title ?? "unknown")" }
+            state.records += 20
+            return "Already in your crate · +20 records"
+
+        case .genreTrack(let g, let id):
+            var parts: [String] = []
+            if !state.unlockedGenres.contains(g) { state.unlockedGenres.append(g); parts.append("Unlocked \(g.rawValue)") }
+            if !state.ownedTrackIDs.contains(id) { state.ownedTrackIDs.append(id); parts.append(track(id)?.title ?? "new track") }
+            if parts.isEmpty { state.records += 20; return "Already on air · +20 records" }
+            return parts.joined(separator: " + ")
+        }
     }
 
     // MARK: - Shop

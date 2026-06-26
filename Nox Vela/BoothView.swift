@@ -3,6 +3,7 @@ import SwiftUI
 struct BoothView: View {
     @ObservedObject var store: RadioGameStore
     @State private var result: BroadcastResult? = nil
+    @State private var advance: NightAdvance? = nil
     @State private var showResult = false
 
     var body: some View {
@@ -25,14 +26,14 @@ struct BoothView: View {
                 }
 
                 // Result overlay (NOT a nested NavigationLink — per pitfall)
-                if showResult, let r = result {
-                    BroadcastResultOverlay(result: r, store: store, screenSize: screenSize) {
-                        // Next night
-                        store.commit(r)
+                if showResult, let r = result, let adv = advance {
+                    BroadcastResultOverlay(result: r, advance: adv, store: store, screenSize: screenSize) {
+                        // Next night — progress was already committed when the result appeared
                         store.clearAll()
                         store.selectedCrateTrack = nil
                         withAnimation { showResult = false }
                         result = nil
+                        advance = nil
                     }
                     .transition(.opacity)
                 }
@@ -70,10 +71,45 @@ struct BoothView: View {
                         .foregroundColor(RadioTheme.textDim)
                 }
             }
+            stationBar
             crateStrip
         }
         .padding(14)
         .radioCard()
+    }
+
+    // Station rank ladder — climbs as nights are aired.
+    private var stationBar: some View {
+        VStack(spacing: 5) {
+            HStack(spacing: 6) {
+                Text("STATION")
+                    .font(.system(size: 10, weight: .heavy, design: .rounded)).tracking(1.5)
+                    .foregroundColor(RadioTheme.textDim)
+                Text(store.stationTier.name)
+                    .font(.system(size: 12, weight: .bold, design: .rounded))
+                    .foregroundColor(RadioTheme.neon)
+                Spacer()
+                if let nxt = store.nextTier {
+                    Text("\(store.tierProgress.current)/\(store.tierProgress.target) → \(nxt.name)")
+                        .font(.system(size: 10, weight: .medium, design: .rounded))
+                        .foregroundColor(RadioTheme.textDim)
+                } else {
+                    Text("Top tier")
+                        .font(.system(size: 10, weight: .bold, design: .rounded))
+                        .foregroundColor(RadioTheme.amber)
+                }
+            }
+            GeometryReader { g in
+                ZStack(alignment: .leading) {
+                    Capsule().fill(RadioTheme.stroke.opacity(0.4))
+                    Capsule()
+                        .fill(LinearGradient(colors: [RadioTheme.neon, RadioTheme.amber],
+                                             startPoint: .leading, endPoint: .trailing))
+                        .frame(width: max(4, g.size.width * CGFloat(store.tierProgress.fraction)))
+                }
+            }
+            .frame(height: 6)
+        }
     }
 
     private var crateStrip: some View {
@@ -255,7 +291,9 @@ struct BoothView: View {
 
     private func broadcast() {
         let r = store.evaluate()
+        let adv = store.commit(r)   // commit now so the result screen can reveal tier-ups / unlocks
         result = r
+        advance = adv
         withAnimation(.easeInOut(duration: 0.35)) { showResult = true }
     }
 }

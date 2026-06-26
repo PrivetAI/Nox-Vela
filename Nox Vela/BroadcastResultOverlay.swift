@@ -2,6 +2,7 @@ import SwiftUI
 
 struct BroadcastResultOverlay: View {
     let result: BroadcastResult
+    let advance: NightAdvance
     @ObservedObject var store: RadioGameStore
     var screenSize: CGSize
     var onNext: () -> Void
@@ -62,6 +63,9 @@ struct BroadcastResultOverlay: View {
                     .padding(16)
                     .radioCard()
 
+                    // Station progression (tier-up + milestone unlocks)
+                    stationCard
+
                     // Breakdown toggle
                     Button(action: { withAnimation { showBreakdown.toggle() } }) {
                         HStack {
@@ -102,6 +106,91 @@ struct BroadcastResultOverlay: View {
         .onAppear {
             withAnimation(.easeOut(duration: 1.3)) { reveal = 1 }
         }
+    }
+
+    // Between-night progression: station rank bar + any milestone deliveries unlocked tonight.
+    private var stationCard: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            if let t = advance.tieredUp {
+                HStack(spacing: 10) {
+                    RecordPip(size: 22)
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("PROMOTED · \(t.name.uppercased())")
+                            .font(.system(size: 14, weight: .heavy, design: .rounded)).tracking(1)
+                            .foregroundColor(RadioTheme.good)
+                        Text(t.blurb)
+                            .font(.system(size: 11, weight: .medium, design: .rounded))
+                            .foregroundColor(RadioTheme.textDim)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                    Spacer(minLength: 0)
+                }
+            }
+
+            HStack {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("STATION RANK")
+                        .font(.system(size: 10, weight: .heavy, design: .rounded)).tracking(1.5)
+                        .foregroundColor(RadioTheme.textDim)
+                    Text(store.stationTier.name)
+                        .font(.system(size: 16, weight: .bold, design: .rounded))
+                        .foregroundColor(RadioTheme.neon)
+                }
+                Spacer()
+                Text("\(store.state.nightsAired) nights aired")
+                    .font(.system(size: 11, weight: .medium, design: .rounded))
+                    .foregroundColor(RadioTheme.textDim)
+            }
+
+            GeometryReader { g in
+                ZStack(alignment: .leading) {
+                    Capsule().fill(RadioTheme.stroke.opacity(0.4))
+                    Capsule()
+                        .fill(LinearGradient(colors: [RadioTheme.neon, RadioTheme.amber],
+                                             startPoint: .leading, endPoint: .trailing))
+                        .frame(width: max(4, g.size.width * CGFloat(store.tierProgress.fraction)))
+                }
+            }
+            .frame(height: 7)
+
+            if let nxt = store.nextTier {
+                let left = max(0, store.tierProgress.target - store.tierProgress.current)
+                Text("\(left) more night\(left == 1 ? "" : "s") to \(nxt.name)")
+                    .font(.system(size: 11, weight: .medium, design: .rounded))
+                    .foregroundColor(RadioTheme.textMid)
+            } else {
+                Text("You hold the highest rank on the dial.")
+                    .font(.system(size: 11, weight: .medium, design: .rounded))
+                    .foregroundColor(RadioTheme.amber)
+            }
+
+            if !advance.milestones.isEmpty {
+                Rectangle().fill(RadioTheme.stroke.opacity(0.5)).frame(height: 1).padding(.vertical, 2)
+                Text("NEW TONIGHT")
+                    .font(.system(size: 10, weight: .heavy, design: .rounded)).tracking(1.5)
+                    .foregroundColor(RadioTheme.textDim)
+                ForEach(advance.milestones) { m in
+                    HStack(alignment: .top, spacing: 10) {
+                        Circle().fill(RadioTheme.amber).frame(width: 7, height: 7).padding(.top, 5)
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(m.title)
+                                .font(.system(size: 13, weight: .bold, design: .rounded))
+                                .foregroundColor(RadioTheme.textHi)
+                            Text(m.blurb)
+                                .font(.system(size: 11, design: .rounded))
+                                .foregroundColor(RadioTheme.textDim)
+                                .fixedSize(horizontal: false, vertical: true)
+                            Text(m.detail)
+                                .font(.system(size: 11, weight: .bold, design: .rounded))
+                                .foregroundColor(RadioTheme.good)
+                        }
+                        Spacer(minLength: 0)
+                    }
+                }
+            }
+        }
+        .padding(16)
+        .radioCard(raised: advance.tieredUp != nil)
     }
 
     private func statBig(_ label: String, _ value: String) -> some View {
