@@ -9,7 +9,7 @@ struct EnergyCurveGraph: View {
     private let pad: CGFloat = 14
 
     var body: some View {
-        let w = max(screenSize.width - 32, 100) // card inner width
+        let w = max(screenSize.width - 60, 100) // card inner width (outer .padding 16 + card .padding 14 per side)
         let h: CGFloat = 96
         Canvas { ctx, _ in
             let plotW = w - pad * 2
