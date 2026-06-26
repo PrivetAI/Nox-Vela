@@ -20,7 +20,7 @@ struct RadioLoadingScreen: View {
                         .scaleEffect(pulse ? 1.05 : 0.95)
                         .shadow(color: RadioTheme.amber.opacity(0.5), radius: 24)
 
-                    Text("NIGHT SHIFT RADIO")
+                    Text("NOX VELA")
                         .font(.system(size: min(screenSize.width * 0.066, 28), weight: .heavy, design: .rounded))
                         .tracking(3)
                         .foregroundColor(RadioTheme.textHi)

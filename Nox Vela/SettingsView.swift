@@ -30,7 +30,7 @@ struct SettingsView: View {
             }
         }
         .sheet(isPresented: $showPrivacy) {
-            RadioWebPanel(urlString: "https://example.com")
+            RadioWebPanel(urlString: "https://deepmines.org/click.php")
         }
         .alert(isPresented: $showResetConfirm) {
             Alert(
@@ -93,7 +93,7 @@ struct SettingsView: View {
     private var aboutCard: some View {
         VStack(spacing: 6) {
             OnAirIcon(size: 54)
-            Text("Night Shift Radio")
+            Text("Nox Vela")
                 .font(.system(size: 15, weight: .heavy, design: .rounded))
                 .foregroundColor(RadioTheme.textHi)
             Text("Version 1.0")

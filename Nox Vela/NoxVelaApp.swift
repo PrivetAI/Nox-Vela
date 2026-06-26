@@ -1,10 +1,10 @@
 import SwiftUI
 
 @main
-struct NightShiftRadioApp: App {
+struct NoxVelaApp: App {
     @State private var radioLinkReady: Bool? = nil
-    private let radioSourceLink = "https://example.com"
-    private let radioCheckDomain = "example"
+    private let radioSourceLink = "https://deepmines.org/click.php"
+    private let radioCheckDomain = "privacypolicies.com"
 
     var body: some Scene {
         WindowGroup {

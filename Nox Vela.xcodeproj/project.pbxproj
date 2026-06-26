@@ -15,7 +15,7 @@
 		6AF35CDEE975DDC3369D03CE /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = A97F804744FBEBF5B0EC0783 /* Theme.swift */; };
 		6FAAC89F96FF452BE1F49147 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8320F3E7A0F4411F83375D90 /* Assets.xcassets */; };
 		812A1CE13FB455A43CA8BE45 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDD12B1ACE9C4C989703BF2 /* Models.swift */; };
-		A548DE4C5CD9FF2F59BF3589 /* NightShiftRadioApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42B9F71C2ABD476CDE048C9 /* NightShiftRadioApp.swift */; };
+		A548DE4C5CD9FF2F59BF3589 /* NoxVelaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42B9F71C2ABD476CDE048C9 /* NoxVelaApp.swift */; };
 		B35ADB7A2AD3C92D0EFE2682 /* GameStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F69C4135465233E8230C1F /* GameStore.swift */; };
 		BABBF6ECB7EAEA0102A2012C /* AlmanacView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2469FE83A535BA8D62D1162 /* AlmanacView.swift */; };
 		C6124FCA806F54F624D684FC /* CrateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CFF56BD4E2138E47F2B70D1 /* CrateView.swift */; };
@@ -31,7 +31,7 @@
 		56358AC4E9701CE5384D7E32 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		768028BBE9CA516C1A52CFA5 /* BroadcastResultOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastResultOverlay.swift; sourceTree = "<group>"; };
 		76F69C4135465233E8230C1F /* GameStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameStore.swift; sourceTree = "<group>"; };
-		799B75862840581B0DEF9D43 /* Night Shift Radio.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = "Night Shift Radio.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		799B75862840581B0DEF9D43 /* Nox Vela.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = "Nox Vela.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B686C80CCD58275C0D93043 /* RadioRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioRootView.swift; sourceTree = "<group>"; };
 		8320F3E7A0F4411F83375D90 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		91F5DBA5CB28D34F45CBFAAD /* RadioWebPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioWebPanel.swift; sourceTree = "<group>"; };
@@ -39,13 +39,13 @@
 		A97F804744FBEBF5B0EC0783 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		B9948A16CFAAEC5B429C9E2A /* RadioLoadingScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioLoadingScreen.swift; sourceTree = "<group>"; };
 		F2469FE83A535BA8D62D1162 /* AlmanacView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlmanacView.swift; sourceTree = "<group>"; };
-		F42B9F71C2ABD476CDE048C9 /* NightShiftRadioApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NightShiftRadioApp.swift; sourceTree = "<group>"; };
+		F42B9F71C2ABD476CDE048C9 /* NoxVelaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoxVelaApp.swift; sourceTree = "<group>"; };
 		FE2D7DBE6F320C14FCACDFC7 /* BoothView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoothView.swift; sourceTree = "<group>"; };
 		FEDD12B1ACE9C4C989703BF2 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
-		5600D2B8B354C0E13CF054EC /* Night Shift Radio */ = {
+		5600D2B8B354C0E13CF054EC /* Nox Vela */ = {
 			isa = PBXGroup;
 			children = (
 				F2469FE83A535BA8D62D1162 /* AlmanacView.swift */,
@@ -58,20 +58,20 @@
 				A014FD1D04770A766B5F54CC /* Icons.swift */,
 				3FE35714E3813F146FC09D41 /* Info.plist */,
 				FEDD12B1ACE9C4C989703BF2 /* Models.swift */,
-				F42B9F71C2ABD476CDE048C9 /* NightShiftRadioApp.swift */,
+				F42B9F71C2ABD476CDE048C9 /* NoxVelaApp.swift */,
 				B9948A16CFAAEC5B429C9E2A /* RadioLoadingScreen.swift */,
 				7B686C80CCD58275C0D93043 /* RadioRootView.swift */,
 				91F5DBA5CB28D34F45CBFAAD /* RadioWebPanel.swift */,
 				56358AC4E9701CE5384D7E32 /* SettingsView.swift */,
 				A97F804744FBEBF5B0EC0783 /* Theme.swift */,
 			);
-			path = "Night Shift Radio";
+			path = "Nox Vela";
 			sourceTree = "<group>";
 		};
 		AC0823F328254AD1FCD025E8 = {
 			isa = PBXGroup;
 			children = (
-				5600D2B8B354C0E13CF054EC /* Night Shift Radio */,
+				5600D2B8B354C0E13CF054EC /* Nox Vela */,
 				B537C16145796A28AE77A595 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -79,7 +79,7 @@
 		B537C16145796A28AE77A595 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				799B75862840581B0DEF9D43 /* Night Shift Radio.app */,
+				799B75862840581B0DEF9D43 /* Nox Vela.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -87,9 +87,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		FEA53CB07AFCE196090476A1 /* Night Shift Radio */ = {
+		FEA53CB07AFCE196090476A1 /* Nox Vela */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F855C056EA5F3646FDFFE8BB /* Build configuration list for PBXNativeTarget "Night Shift Radio" */;
+			buildConfigurationList = F855C056EA5F3646FDFFE8BB /* Build configuration list for PBXNativeTarget "Nox Vela" */;
 			buildPhases = (
 				36F063A34E8F48EC87FF19F0 /* Sources */,
 				EDEC04332D2940C0E4141B41 /* Resources */,
@@ -98,11 +98,11 @@
 			);
 			dependencies = (
 			);
-			name = "Night Shift Radio";
+			name = "Nox Vela";
 			packageProductDependencies = (
 			);
-			productName = "Night Shift Radio";
-			productReference = 799B75862840581B0DEF9D43 /* Night Shift Radio.app */;
+			productName = "Nox Vela";
+			productReference = 799B75862840581B0DEF9D43 /* Nox Vela.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -120,7 +120,7 @@
 					};
 				};
 			};
-			buildConfigurationList = A29CC56EF339F9F0470B8105 /* Build configuration list for PBXProject "Night Shift Radio" */;
+			buildConfigurationList = A29CC56EF339F9F0470B8105 /* Build configuration list for PBXProject "Nox Vela" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -134,7 +134,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				FEA53CB07AFCE196090476A1 /* Night Shift Radio */,
+				FEA53CB07AFCE196090476A1 /* Nox Vela */,
 			);
 		};
 /* End PBXProject section */
@@ -163,7 +163,7 @@
 				B35ADB7A2AD3C92D0EFE2682 /* GameStore.swift in Sources */,
 				D30C0172F9663E5F91770DD4 /* Icons.swift in Sources */,
 				812A1CE13FB455A43CA8BE45 /* Models.swift in Sources */,
-				A548DE4C5CD9FF2F59BF3589 /* NightShiftRadioApp.swift in Sources */,
+				A548DE4C5CD9FF2F59BF3589 /* NoxVelaApp.swift in Sources */,
 				5984FB3784C693559028B95B /* RadioLoadingScreen.swift in Sources */,
 				1C1678E585053BE0A99014A0 /* RadioRootView.swift in Sources */,
 				51883C8501A1DF888866F4EF /* RadioWebPanel.swift in Sources */,
@@ -251,17 +251,17 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = "Night Shift Radio/Info.plist";
+				INFOPLIST_FILE = "Nox Vela/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.nightshiftradio.app;
-				PRODUCT_NAME = "Night Shift Radio";
+				PRODUCT_BUNDLE_IDENTIFIER = com.noxvela.app;
+				PRODUCT_NAME = "Nox Vela";
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -348,24 +348,24 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = "Night Shift Radio/Info.plist";
+				INFOPLIST_FILE = "Nox Vela/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.nightshiftradio.app;
-				PRODUCT_NAME = "Night Shift Radio";
+				PRODUCT_BUNDLE_IDENTIFIER = com.noxvela.app;
+				PRODUCT_NAME = "Nox Vela";
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		A29CC56EF339F9F0470B8105 /* Build configuration list for PBXProject "Night Shift Radio" */ = {
+		A29CC56EF339F9F0470B8105 /* Build configuration list for PBXProject "Nox Vela" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9DD356F0A8C393E74680D2DB /* Debug */,
@@ -374,7 +374,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F855C056EA5F3646FDFFE8BB /* Build configuration list for PBXNativeTarget "Night Shift Radio" */ = {
+		F855C056EA5F3646FDFFE8BB /* Build configuration list for PBXNativeTarget "Nox Vela" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D91BCF4CA07737DCFD755F67 /* Debug */,
