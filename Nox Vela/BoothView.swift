@@ -372,6 +372,8 @@ struct GenreTag: View {
         Text(genre.rawValue.uppercased())
             .font(.system(size: 9, weight: .heavy, design: .rounded))
             .tracking(0.5)
+            .lineLimit(1)
+            .fixedSize()
             .foregroundColor(RadioTheme.genreColor(genre))
             .padding(.horizontal, 7).padding(.vertical, 3)
             .background(RoundedRectangle(cornerRadius: 5).fill(RadioTheme.genreColor(genre).opacity(0.18)))
